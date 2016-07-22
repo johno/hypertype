@@ -1,12 +1,9 @@
 const { shell } = require('electron')
+const isBlank = require('is-blank')
 
 exports.middleware = store => next => action => {
   if ('SESSION_USER_DATA' === action.type) {
-    let { data } = action
-
-    if (data === '') {
-      data = '↵'
-    }
+    const { data } = action
 
     store.dispatch({
       type: 'HYPERTYPE_USER_DATA',
@@ -72,15 +69,20 @@ exports.decorateTerm = (Term, { React }) => {
         characterData: false
       })
 
-      this.init()
+      this.displayKeys()
     }
 
-    init () {
+    displayKeys () {
+      console.log(this.props, 'lol')
+      const { hypertypeUserData } = this.props
+
+      if (!hypertypeUserData || !hypertypeUserData.length) return
+
       const keys = document.createElement('div')
-      keys.style = 'position: absolute; bottom: 0; right: 0; padding: 50px; background-color: rebeccapurple; color: tomato'
+      keys.style = 'position: absolute; bottom: 0; right: 0; padding: 50px; background-color: rebeccapurple; color: tomato; font-size:2rem; font-family: sans-serif;'
 
       keys.appendChild(
-        document.createTextNode('hellofromhypertype')
+        document.createTextNode(hypertypeUserData.join(''))
       )
 
       this.div = keys
@@ -88,7 +90,8 @@ exports.decorateTerm = (Term, { React }) => {
     }
 
     onCursorChange () {
-      // ...
+      console.log(this.cursor)
+      this.displayKeys()
     }
 
     render () {

@@ -8,6 +8,8 @@
   "repository": "johnotander/hypertype",
   "keywords": [],
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "is-blank": "^1.1.0"
+  },
   "devDependencies": {}
 }
