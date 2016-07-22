@@ -2,11 +2,15 @@
   "name": "hypertype",
   "description": "Display keys in hyperterm as you type them",
   "author": "John Otander",
-  "version": "0.1.0",
+  "version": "0.0.0-beta.1",
   "main": "index.js",
   "scripts": {},
   "repository": "johnotander/hypertype",
-  "keywords": [],
+  "keywords": [
+    "hyperterm",
+    "hyperterm-plugin",
+    "screencast"
+  ],
   "license": "MIT",
   "dependencies": {
     "is-blank": "^1.1.0"
