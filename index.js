@@ -1,28 +1,27 @@
 const { shell } = require('electron')
 const isBlank = require('is-blank')
 
-exports.middleware = store => next => action => {
-  if ('SESSION_USER_DATA' === action.type) {
-    const { data } = action
+let keySinceLastDispatch = null
 
+exports.middleware = store => next => action => {
+  if ('SESSION_USER_DATA' == action.type && keySinceLastDispatch) {
     store.dispatch({
       type: 'HYPERTYPE_USER_DATA',
-      data
+      data: keySinceLastDispatch
     })
+
+    keySinceLastDispatch = null
   }
 
-  console.log(action)
   next(action)
 }
 
 exports.reduceUI = (state, action) => {
-  console.log(state)
-  console.log(action)
   switch (action.type) {
     case 'HYPERTYPE_USER_DATA':
       const hypertypeUserData = state.hypertypeUserData || []
-      console.log(hypertypeUserData, 'wooo')
-      return state.set('hypertypeUserData', hypertypeUserData.concat(action.data))
+      hypertypeUserData.push(action.data)
+      return state.set('hypertypeUserData', hypertypeUserData)
     default:
       return state
   }
@@ -69,28 +68,37 @@ exports.decorateTerm = (Term, { React }) => {
         characterData: false
       })
 
+      this.window.addEventListener('keydown', e => {
+        keySinceLastDispatch = e.key
+      })
+
       this.displayKeys()
     }
 
     displayKeys () {
-      console.log(this.props, 'lol')
-      const { hypertypeUserData } = this.props
+      let { hypertypeUserData } = this.props
 
       if (!hypertypeUserData || !hypertypeUserData.length) return
 
-      const keys = document.createElement('div')
-      keys.style = 'position: absolute; bottom: 0; right: 0; padding: 50px; background-color: rebeccapurple; color: tomato; font-size:2rem; font-family: sans-serif;'
+      hypertypeUserData = hypertypeUserData.asMutable()
 
-      keys.appendChild(
-        document.createTextNode(hypertypeUserData.join(''))
-      )
+      const prevKeys = document.getElementById('hypertype')
+
+      if (prevKeys) {
+        prevKeys.parentNode.removeChild(prevKeys)
+      }
+
+      const keys = document.createElement('div')
+      keys.id = 'hypertype'
+      keys.style = 'position: absolute; bottom: 0; right: 0; padding: 50px; background-color: #777; color: white; font-size:2rem; font-family: sans-serif; opacity: .8'
+
+      keys.appendChild(document.createTextNode(hypertypeUserData.join('')))
 
       this.div = keys
       document.body.appendChild(keys)
     }
 
     onCursorChange () {
-      console.log(this.cursor)
       this.displayKeys()
     }
 
