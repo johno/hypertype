@@ -1,6 +1,16 @@
 # ⧉[hyper](https://github.com/zeit/hyperterm)type
 
-Display keys in hyperterm as you type them
+__Work in progress__
+
+Display keys in hyperterm as you type them.
+
+#### TODO
+
+- [x] Display typing in the terminal
+- [ ] Set a timeout to remove the display after inactivity
+- [ ] Make the css configurable
+- [ ] Display the enter and mac keys
+- [ ] Dsiplay combination key presses
 
 ## Installation
 

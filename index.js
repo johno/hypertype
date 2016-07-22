@@ -90,7 +90,19 @@ exports.decorateTerm = (Term, { React }) => {
 
       const keys = document.createElement('div')
       keys.id = 'hypertype'
-      keys.style = 'position: absolute; bottom: 0; right: 0; padding: 50px; background-color: #777; color: white; font-size:2rem; font-family: sans-serif; opacity: .8'
+
+      // TODO: Make configurable
+      keys.style = `
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        padding: 50px;
+        background-color: #777;
+        color: white;
+        font-size:2rem;
+        font-family: sans-serif;
+        opacity: .8
+      `
 
       keys.appendChild(document.createTextNode(hypertypeUserData.join('')))
 
