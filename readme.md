@@ -4,6 +4,8 @@ __Work in progress__
 
 Display keys in hyperterm as you type them.
 
+![hypertype](https://cloud.githubusercontent.com/assets/1424573/17048783/dd09067c-4fa5-11e6-8a6e-adde8cc398e4.gif)
+
 #### TODO
 
 - [x] Display typing in the terminal
