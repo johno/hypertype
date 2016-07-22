@@ -53,6 +53,7 @@ exports.decorateTerm = (Term, { React }) => {
 
       this.div = null
       this.cursor = null
+      this.window = null
       this.observer = null
     }
 
@@ -62,6 +63,7 @@ exports.decorateTerm = (Term, { React }) => {
       }
 
       this.div = term.div
+      this.window = term.document_.defaultView
       this.cursor = term.cursorNode_;
       this.observer = new MutationObserver(this.onCursorChange)
       this.observer.observe(this.cursor, {
@@ -69,6 +71,20 @@ exports.decorateTerm = (Term, { React }) => {
         childList: false,
         characterData: false
       })
+
+      this.init()
+    }
+
+    init () {
+      const keys = document.createElement('div')
+      keys.style = 'position: absolute; bottom: 0; right: 0; padding: 50px; background-color: rebeccapurple; color: tomato'
+
+      keys.appendChild(
+        document.createTextNode('hellofromhypertype')
+      )
+
+      this.div = keys
+      document.body.appendChild(keys)
     }
 
     onCursorChange () {
