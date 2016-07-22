@@ -1,0 +1,13 @@
+{
+  "name": "hypertype",
+  "description": "Display keys in hyperterm as you type them",
+  "author": "John Otander",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {},
+  "repository": "johnotander/hypertype",
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
+}
