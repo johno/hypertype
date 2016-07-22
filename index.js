@@ -1,5 +1,48 @@
 const { shell } = require('electron')
 
+exports.middleware = store => next => action => {
+  if ('SESSION_USER_DATA' === action.type) {
+    let { data } = action
+
+    if (data === '') {
+      data = '↵'
+    }
+
+    store.dispatch({
+      type: 'HYPERTYPE_USER_DATA',
+      data
+    })
+  }
+
+  console.log(action)
+  next(action)
+}
+
+exports.reduceUI = (state, action) => {
+  console.log(state)
+  console.log(action)
+  switch (action.type) {
+    case 'HYPERTYPE_USER_DATA':
+      const hypertypeUserData = state.hypertypeUserData || []
+      console.log(hypertypeUserData, 'wooo')
+      return state.set('hypertypeUserData', hypertypeUserData.concat(action.data))
+    default:
+      return state
+  }
+}
+
+exports.mapTermsState = (state, map) => {
+  return Object.assign(map, {
+    hypertypeUserData: state.ui.hypertypeUserData
+  })
+}
+
+exports.getTermProps = (uid, parentProps, props) => {
+  return Object.assign(props, {
+    hypertypeUserData: parentProps.hypertypeUserData
+  })
+}
+
 exports.decorateTerm = (Term, { React }) => {
   return class extends React.Component {
     constructor (props, context) {
@@ -29,8 +72,7 @@ exports.decorateTerm = (Term, { React }) => {
     }
 
     onCursorChange () {
-      console.log('cursor changed')
-      console.log(this.cursor)
+      // ...
     }
 
     render () {
