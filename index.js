@@ -108,6 +108,9 @@ exports.decorateTerm = (Term, { React }) => {
 
       this.div = keys
       document.body.appendChild(keys)
+      window.setTimeout(() => {
+        keys.parentNode && keys.parentNode.removeChild(keys)
+      }, 1000)
     }
 
     onCursorChange () {
