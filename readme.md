@@ -9,10 +9,11 @@ Display keys in hyperterm as you type them.
 #### TODO
 
 - [x] Display typing in the terminal
-- [ ] Set a timeout to remove the display after inactivity
+- [x] Set a timeout to remove the display after inactivity
+- [x] Reset text to display once timeout occurs
 - [ ] Add ability to toggle
 - [ ] Make the css configurable
-- [ ] Display the enter and mac keys
+- [ ] Display the enter, shift, tab, and mac keys
 - [ ] Display combination key presses
 
 ## Installation

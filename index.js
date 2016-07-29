@@ -2,15 +2,31 @@ const { shell } = require('electron')
 const isBlank = require('is-blank')
 
 let keySinceLastDispatch = null
+let timeSinceLastDispatch = new Date()
 
 exports.middleware = store => next => action => {
-  if ('SESSION_USER_DATA' == action.type && keySinceLastDispatch) {
-    store.dispatch({
-      type: 'HYPERTYPE_USER_DATA',
-      data: keySinceLastDispatch
-    })
+  if ('SESSION_USER_DATA' == action.type) {
+    const hiddenDisplay = !document.getElementById('hypertype')
 
-    keySinceLastDispatch = null
+    if (hiddenDisplay) {
+      store.dispatch({
+        type: 'HYPERTYPE_USER_DATA_CLEAR'
+      })
+    }
+
+    if (keySinceLastDispatch) {
+      const now = new Date()
+
+      if (now - timeSinceLastDispatch < 1000 || hiddenDisplay) {
+        store.dispatch({
+          type: 'HYPERTYPE_USER_DATA',
+          data: keySinceLastDispatch
+        })
+      }
+
+      timeSinceLastDispatch = now
+      keySinceLastDispatch = null
+    }
   }
 
   next(action)
@@ -18,6 +34,8 @@ exports.middleware = store => next => action => {
 
 exports.reduceUI = (state, action) => {
   switch (action.type) {
+    case 'HYPERTYPE_USER_DATA_CLEAR':
+      return state.set('hypertypeUserData', [])
     case 'HYPERTYPE_USER_DATA':
       const hypertypeUserData = state.hypertypeUserData || []
       hypertypeUserData.push(action.data)
