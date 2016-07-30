@@ -6,15 +6,13 @@ let timeSinceLastDispatch = new Date()
 
 exports.middleware = store => next => action => {
   if ('SESSION_USER_DATA' == action.type) {
-    const hiddenDisplay = !document.getElementById('hypertype')
+    const hiddenDisplay = !config.getConfig().hypertype
 
     if (hiddenDisplay) {
       store.dispatch({
         type: 'HYPERTYPE_USER_DATA_CLEAR'
       })
-    }
-
-    if (keySinceLastDispatch) {
+    } else if (keySinceLastDispatch) {
       const now = new Date()
 
       if (now - timeSinceLastDispatch < 1000 || hiddenDisplay) {
